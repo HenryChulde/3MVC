@@ -1,0 +1,40 @@
+<?php
+class ClaseConectar
+{
+    private $conexion;
+    private $db;
+    private $host = "localhost";
+    private $usuario = "root";
+    private $pass = "root";
+    private $base = "sexto";
+
+    public function __construct()
+    {
+        $this->ProcedimientoParaConectar();
+    }
+
+    private function ProcedimientoParaConectar()
+    {
+        $this->conexion = mysqli_connect($this->host, $this->usuario, $this->pass, $this->base);
+
+        if (!$this->conexion) {
+            throw new Exception("Error al conectar con el servidor: " . mysqli_connect_error());
+        }
+
+        mysqli_set_charset($this->conexion, 'utf8');
+
+        $this->db = $this->conexion;
+
+        // No necesitas esta comprobación, ya que mysqli_connect_error() manejará el caso en que no se pueda conectar.
+        // if ($this->db == false) {
+        //     throw new Exception("Error al conectar con la base de datos.");
+        // }
+
+        return $this->conexion;
+    }
+
+    public function getConexion()
+    {
+        return $this->conexion;
+    }
+}
